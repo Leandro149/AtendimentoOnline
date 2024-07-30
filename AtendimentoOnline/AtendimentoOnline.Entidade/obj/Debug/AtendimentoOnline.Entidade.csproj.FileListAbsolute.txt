@@ -1,0 +1,12 @@
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\bin\Debug\AtendimentoOnline.Entidade.dll.config
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\bin\Debug\AtendimentoOnline.Entidade.dll
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\bin\Debug\AtendimentoOnline.Entidade.pdb
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\bin\Debug\EntityFramework.dll
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\bin\Debug\EntityFramework.SqlServer.dll
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\bin\Debug\EntityFramework.xml
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\bin\Debug\EntityFramework.SqlServer.xml
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\obj\Debug\AtendimentoOnline.Entidade.csproj.CoreCompileInputs.cache
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\obj\Debug\AtendimentoOnline.Entidade.csproj.CopyComplete
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\obj\Debug\AtendimentoOnline.Entidade.dll
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\obj\Debug\AtendimentoOnline.Entidade.pdb
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.Entidade\obj\Debug\AtendimentoOnline.Entidade.csprojResolveAssemblyReference.cache

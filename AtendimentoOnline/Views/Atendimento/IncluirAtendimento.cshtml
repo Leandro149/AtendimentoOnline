@@ -1,0 +1,324 @@
+﻿@model AtendimentoOnline.Models.AtendimentoModel
+@{
+    ViewBag.Title = "IncluirAtendimento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Content/lib/jquery.maskedinput/jquery.maskedinput.min.js"></script>
+<script src="~/Content/js/app-form-masks.js"></script>
+<script src="~/Content/js/jquery.blockUI.js"></script>
+<script src="~/Content/js/scripts.js"></script>
+
+<div class="panel panel-default panel-border-color panel-border-color-primary">
+    <div class="panel-heading panel-heading-divider">CADASTRO DE ATENDIMENTO<span class="panel-subtitle">Preencher os Campos Referente a o Atendimento, os Campos com ( * ) são Obrigatórios</span></div>
+    <div class="panel-body">
+        <form id="SubSalvar" action="/Atendimento/Salvar" method="post">
+            
+            @*@Html.TextBoxFor(model => Model.Id, new { @class = "hidden" })*@
+            @Html.TextBoxFor(model => Model.IdPessoa, new { @class = "hidden" })
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label>Tipo Atendimento: </label>
+                    @Html.DropDownListFor(x => x.IdTipoAtendimento, Model.ListaTipoAtendimento, "Selecione...", new { id="lblTipoAtendimento", @class = "form-control" })
+                </div>
+                <div class="form-group col-sm-4">
+                    <label>Prioridade: </label>
+                    @Html.DropDownListFor(x => x.IdCategoria, Model.ListaCategoria, "Selecione...", new { id = "lblCategoria", @class = "form-control" })
+                </div>
+                <div class="form-group col-sm-4">
+                    <label>Status: </label>
+                    @Html.DropDownListFor(x => x.IdStatus, Model.ListaStatus, new { id = "lblStatus", @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
+                </div>
+            </div>
+
+            <div class="panel-heading panel-heading-divider">DADOS DE ENDEREÇO<span class="panel-subtitle">Digite o Cep para Pesquisar o Endereço. </span></div>
+            <div class="form-group col-sm-2">
+                <label>Cep</label>
+                @Html.TextBoxFor(m => Model.Endereco.CEP, new { id = "txtCep", @class = "form-control", placeholder = "Digite o Cep" })
+            </div>
+
+            <div class="form-group col-sm-4">
+                <label>Endereço</label>
+                @Html.TextBoxFor(m => Model.Endereco.Logradouro, new { id = "txtEndereco", @class = "form-control", @readonly = "readonly" })
+            </div>
+
+            <div class="form-group col-sm-2">
+                <label>Número</label>
+                @Html.TextBoxFor(m => Model.Endereco.Numero, new { id = "txtNumero", @class = "form-control", placeholder = "Digite o Número", maxlength = 20 })
+            </div>
+
+            <div class="form-group col-sm-4">
+                <label>Complemento</label>
+                @Html.TextBoxFor(m => Model.Endereco.Complemento, new { id = "txtComplemento", @class = "form-control", placeholder = "Digite o Complemento", maxlength = 300 })
+            </div>
+
+            <div class="form-group col-sm-5">
+                <label>Bairro</label>
+                @Html.TextBoxFor(m => Model.Endereco.Bairro, new { id = "txtBairro", @class = "form-control", @readonly = "readonly" })
+            </div>
+
+            <div class="form-group col-sm-4">
+                <label>Cidade</label>
+                @Html.TextBoxFor(m => Model.Endereco.Cidade, new { id = "txtCidade", @class = "form-control", @readonly = "readonly" })
+            </div>
+
+            <div class="form-group col-sm-3">
+                <label>UF</label>
+                @Html.TextBoxFor(m => Model.Endereco.UF, new { id = "txtUF", @class = "form-control", @readonly = "readonly" })
+            </div>
+
+            <div class="form-group col-sm-9">
+                <label>Descrição do Atendimento</label>
+                @Html.TextAreaFor(m => Model.Descricao, new { id = "txtDescritivo", @class = "form-control", @style = "height:150px;", placeholder = "Digite a Descrição do Atendimento" })
+            </div>
+
+            <div class="form-group col-sm-3">
+                <label>&zwnj;</label>
+                <div class="form-group">
+                    <button id="Salvar" type="button" class="btn btn-space btn-success btn-big"><i class="icon icon-left mdi mdi-mail-send"></i> Salvar Atendimento</button>
+                    <button id="Cancelar" type="button" class="btn btn-space btn-danger btn-big"><i class="icon icon-left mdi mdi-close-circle-o"></i> Cancelar</button>
+                </div>
+            </div>
+            <div id="list">
+                @Html.Partial("../Atendimento/PartialDescritivo")
+            </div>
+        </form>
+    </div>
+</div>
+<div id="modalTipoAtendimento" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O Campo Tipo de Atendimento é obrigatório.</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnTipoAtendimento" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+<div id="modalCategoria" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O Campo Prioridade é Obrigatório.</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnFecharCategoria" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+
+<div id="modalCEPObrigatorio" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O campo Cep é obrigatório, digite o Cep que deseja cadastrar.</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnFecharCep" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+<div id="modalNumResidenciaObrigatorio" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O campo Número é obrigatório, digite o Número que deseja cadastrar.</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnFecharNumResidencia" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+
+@if (TempData["Mensagem"] == "sucesso")
+{
+    <div id="modalSucesso" class="modal-container modal-full-color modal-full-color-success modal-effect-1 modal-show" style="perspective: none; height: 382px;">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <span class="modal-main-icon mdi mdi-check"></span>
+                    <h3>Sucesso!</h3>
+                    <p>Sua ação foi realizada com sucesso, clique "OK" para continuar.</p>
+                    <div class="xs-mt-50">
+                        <input type="button" value="OK" class="btn btn-default btn-lg btn-space modal-close" id="btnOK" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+    <div class="modal-overlay"></div>
+}
+else if (TempData["Mensagem"] == "error")
+{
+    <div id="modalError" class="modal-container modal-full-color modal-full-color-danger modal-effect-1 modal-show" style="perspective: none; height: 382px;">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <span class="modal-main-icon mdi mdi-check"></span>
+                    <h3>Sucesso!</h3>
+                    <p>Aconteceu um erro inesperado durante a gravação, por favor entre em contato o desenvolvedor pelo E-mail (leo.lima149@gmail.com).</p>
+                    <div class="xs-mt-50">
+                        <input type="button" value="OK" class="btn btn-default btn-lg btn-space modal-close" id="btnOKError" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        //$("#modalSucesso").addClass("modal-show");
+    });
+
+    $("#txtCep").change(function (e) {
+
+        e.preventDefault();
+
+        $("#txtEndereco").val("");
+        $("#txtBairro").val("");
+        $("#txtCidade").val("");
+        $("#txtUF").val("");
+        $("#txtNumero").val("");
+        $("#txtComplemento").val("");
+
+        var Cep = $("#txtCep").val().replace("-", "");
+
+        $.getJSON("http://cep.republicavirtual.com.br/web_cep.php?cep=" + Cep + "&formato=json", {}, function (data) {
+
+            if (data.resultado_txt.indexOf('sucesso') > -1) {
+
+
+                if (data.logradouro) {
+                    $("#txtEndereco").attr('readonly', 'readonly');
+                    $("#txtBairro").attr('readonly', 'readonly');
+
+                    $("#txtEndereco").val(data.tipo_logradouro + ": " + data.logradouro);
+                    $("#txtBairro").val(data.bairro);
+                }
+                else {
+                    $("#txtEndereco").val('');
+                    $("#txtBairro").val('');
+
+                    $("#txtEndereco").removeAttr('readonly');
+                    $("#txtBairro").removeAttr('readonly');
+                }
+
+
+                $("#txtCidade").val(data.cidade);
+                $("#txtUF").val(data.uf);
+            } else {
+                alert("Cep não encontrado!");
+            }
+        });
+
+    });
+
+    $("#Salvar").on('click', function () {
+
+        var lblTipoAtendimento = $("#lblTipoAtendimento").val();
+        var lblCategoria = $("#lblCategoria").val();
+        var txtCep = $("#txtCep").val();
+        var txtNumero = $("#txtNumero").val();
+
+        if (lblTipoAtendimento == 0) {
+            $("#modalTipoAtendimento").addClass("modal-show");
+        }
+        else if (lblCategoria == 0) {
+            $("#modalCategoria").addClass("modal-show");
+        }
+        else if (txtCep == "" || txtCep == "_____-___") {
+            $("#modalCEPObrigatorio").addClass("modal-show");
+        }
+        else if (txtNumero == "") {
+            $("#modalNumResidenciaObrigatorio").addClass("modal-show");
+        }
+
+        else {
+            $("#modalTipoAtendimento").removeClass("modal-show");
+            $("#modalCategoria").removeClass("modal-show");
+            $("#modalCEPObrigatorio").removeClass("modal-show");
+            $("#modalNumResidenciaObrigatorio").removeClass("modal-show");
+
+            $.blockUI({ message: '<h1><img src="/Content/img/busy.gif" /> Aguarde por favor...</h1>' });
+
+            $("#SubSalvar").submit();
+
+            if (TempData["Mensagem"].ToString() == "sucesso") {
+                $("#modalSucesso").addClass("modal-show");
+            } else {
+                $("#modalError").addClass("modal-show");
+            }
+
+        }
+        return;
+
+    });
+
+    $("#Cancelar").on('click', function () {
+        $(location).attr('href', "/ConsultaPessoa");
+    });
+
+    $("#btnTipoAtendimento").on('click', function () {
+        $("#modalTipoAtendimento").removeClass("modal-show");
+    });
+
+    $("#btnFecharCategoria").on('click', function () {
+        $("#modalCategoria").removeClass("modal-show");
+    });
+
+    $("#btnFecharCep").on('click', function () {
+        $("#modalCEPObrigatorio").removeClass("modal-show");
+    });
+
+    $("#btnFecharNumResidencia").on('click', function () {
+        $("#modalNumResidenciaObrigatorio").removeClass("modal-show");
+    });
+
+    $("#btnOK").on('click', function () {
+        var idregistro = '@TempData["retorno"]';
+        $(location).attr('href', "/Atendimento?id=" + idregistro);
+    });
+
+    $("#btnOKError").on('click', function () {
+        $(location).attr('href', "/Atendimento/IncluirAtendimento");
+    });
+
+    $(function () {
+        $("#txtCep").mask("99999-999");
+    });
+
+</script>
+
+
+

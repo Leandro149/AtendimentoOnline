@@ -1,0 +1,439 @@
+﻿@model AtendimentoOnline.Models.PessoaModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Content/lib/jquery.maskedinput/jquery.maskedinput.min.js"></script>
+<script src="~/Content/js/app-form-masks.js"></script>
+<script src="~/Content/js/jquery.blockUI.js"></script>
+<script src="~/Content/js/scripts.js"></script>
+
+<div class="panel panel-default panel-border-color panel-border-color-primary">
+    <div class="panel-heading panel-heading-divider">CADASTRO DE PESSOA<span class="panel-subtitle">Preencher os Campos Referente a o Cadastro da Pessoa, os Campos com ( * ) são Obrigatórios</span></div>
+    <div class="panel-body">
+        <form id="SubSalvar" action="CadastroPessoa/Salvar" method="post">
+
+            @Html.TextBoxFor(model => Model.id, new { @class = "hidden" })
+            @Html.TextBoxFor(model => Model.Endereco.id, new { @class = "hidden" })
+            <div class="row">
+                <div class="form-group col-sm-2">
+                    <label>Sexo: </label>
+                    @Html.DropDownListFor(x => x.IdSexo, Model.ListaSexoCombo, "Selecione..." , new { id= "ddlSexo",  @class = "form-control" })
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>Tipo Pessoa: </label>
+             @Html.DropDownListFor(x => x.IdTipoPessoa, Model.ListaTipoPessoaCombo, "Selecione...", new { id = "ddlTipoPessoa", @class = "form-control" })
+                </div>
+                <div class="form-group col-sm-4">
+                    <label>Municipio Titulo: </label>
+                    @Html.DropDownListFor(x => x.TituloMunicipio, Model.ListaMunicipioTitulo, "Selecione...", new { id = "ddlMunicipioTitulo", @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label>Nome</label>
+                @Html.TextBoxFor(m => Model.Nome, new { id = "txtNome", @class = "form-control text-uppercase", placeholder = "Digite o Nome", maxlength = 100 })
+            </div>
+            <div class="form-group col-sm-2">
+                <label>Documento</label>
+                @Html.TextBoxFor(m => Model.Documento, new { id = "txtDocumento", @class = "form-control", placeholder = "Digite o Documento", maxlength = 50 })
+            </div>
+            <div class="form-group col-sm-3">
+                <label>E-mail</label>
+                @Html.TextBoxFor(m => Model.Email, new { id = "txtEmail", @class = "form-control", placeholder = "Digite o E-mail", @type = "email", maxlength = 100 })
+            </div>
+
+            <div class="form-group col-sm-3">
+                <label>Data Nascimento</label>
+                @Html.TextBoxFor(m => Model.DataNascimento, new { id = "txtDataNascimento", @class = "form-control", placeholder = "dd/mm/yyyy" })
+            </div>
+
+            <div class="form-group col-sm-3">
+                <label>Celular</label>
+                @Html.TextBoxFor(m => Model.Celular, new { id = "txtCelular", @class = "form-control", placeholder = "(99) 99999-9999", maxlength = 20 })
+            </div>
+
+            <div class="form-group col-sm-3">
+                <label>Relefone Residêncial</label>
+                @Html.TextBoxFor(m => Model.Telefone, new { id = "txtTelefone", @class = "form-control", placeholder = "(99) 9999-9999", maxlength = 20 })
+            </div>
+
+            <div class="form-group col-sm-6">
+                <label>Descrição</label>
+                @Html.TextBoxFor(m => Model.Descricao, new { id = "txtDescricao", @class = "form-control", placeholder = "Digite a Descrição", maxlength = 600 })
+            </div>
+
+
+            <div class="panel-heading panel-heading-divider">DADOS DE ENDEREÇO<span class="panel-subtitle">Digite o Cep para Pesquisar o Endereço. </span></div>
+            <div class="form-group col-sm-2">
+                <label>Cep</label>
+                @Html.TextBoxFor(m => Model.Endereco.CEP, new { id = "txtCep", @class = "form-control", placeholder = "Digite o Cep" })
+            </div>
+
+            <div class="form-group col-sm-4">
+                <label>Endereço</label>
+                @Html.TextBoxFor(m => Model.Endereco.Logradouro, new { id = "txtEndereco", @class = "form-control", @readonly = "readonly" })
+            </div>
+
+            <div class="form-group col-sm-2">
+                <label>Número</label>
+                @Html.TextBoxFor(m => Model.Endereco.Numero, new { id = "txtNumero", @class = "form-control", placeholder = "Digite o Número", maxlength = 20 })
+            </div>
+
+            <div class="form-group col-sm-4">
+                <label>Complemento</label>
+                @Html.TextBoxFor(m => Model.Endereco.Complemento, new { id = "txtComplemento", @class = "form-control", placeholder = "Digite o Complemento", maxlength = 300 })
+            </div>
+
+            <div class="form-group col-sm-3">
+                <label>Bairro</label>
+                @Html.TextBoxFor(m => Model.Endereco.Bairro, new { id = "txtBairro", @class = "form-control", @readonly = "readonly" })
+            </div>
+
+            <div class="form-group col-sm-3">
+                <label>Cidade</label>
+                @Html.TextBoxFor(m => Model.Endereco.Cidade, new { id = "txtCidade", @class = "form-control", @readonly = "readonly" })
+            </div>
+
+            <div class="form-group col-sm-2">
+                <label>UF</label>
+                @Html.TextBoxFor(m => Model.Endereco.UF, new { id = "txtUF", @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="form-group col-sm-3">
+                <label>&zwnj;</label>
+                <div class="form-group">
+                    <button id="Salvar" type="button" class="btn btn-space btn-success btn-lg"><i class="icon icon-left mdi mdi-mail-send"></i> Salvar</button>
+                    <button id="Cancelar" type="button" class="btn btn-space btn-danger btn-lg"><i class="icon icon-left mdi mdi-close-circle-o"></i> Cancelar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="modalSexoObrigatorio" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O Sexo é obrigatório, selecione("Masculino" ou "Feminino").</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnFecharSexo" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+<div id="modalTipoPessoaObrigatorio" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O Tipo da pessoa é obrigatório, selecione("Física" ou "Jurídica").</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnFecharTipoPessoa" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+
+<div id="modalNomePessoaObrigatorio" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O campo Nome é obrigatório, digite o Nome da pessoa que deseja cadastrar.</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnFecharNomePessoa" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+<div id="modalCEPObrigatorio" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O campo Cep é obrigatório, digite o Cep que deseja cadastrar.</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnFecharCep" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+<div id="modalNumResidenciaObrigatorio" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O campo Número é obrigatório, digite o Número que deseja cadastrar.</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnFecharNumResidencia" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+
+<div id="modalDataNascimento" class="modal-container modal-full-color modal-full-color-dark modal-effect-1" style="perspective: none; height: 382px;">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+                <span class="modal-main-icon mdi mdi-alert-triangle"></span>
+                <h3>Atenção!</h3>
+                <p>O campo Data Nascimento é obrigatório, digite a data que deseja cadastrar.</p>
+                <div class="xs-mt-50">
+                    <input type="button" value="Fechar" class="btn btn-default btn-lg btn-space" id="btnFecharDataNascimento" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer"></div>
+    </div>
+</div>
+
+@if (TempData["Mensagem"] == "sucesso")
+{
+    <div id="modalSucesso" class="modal-container modal-full-color modal-full-color-success modal-effect-1 modal-show" style="perspective: none; height: 382px;">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <span class="modal-main-icon mdi mdi-check"></span>
+                    <h3>Sucesso!</h3>
+                    <p>Sua ação foi realizada com sucesso, clique "OK" para continuar.</p>
+                    <div class="xs-mt-50">
+                        <input type="button" value="OK" class="btn btn-default btn-lg btn-space modal-close" id="btnOK" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+    <div class="modal-overlay"></div>
+}
+else if (TempData["Mensagem"] == "error")
+{
+    <div id="modalError" class="modal-container modal-full-color modal-full-color-danger modal-effect-1 modal-show" style="perspective: none; height: 382px;">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <span class="modal-main-icon mdi mdi-check"></span>
+                    <h3>Sucesso!</h3>
+                    <p>Aconteceu um erro inesperado durante a gravação, por favor entre em contato o desenvolvedor pelo E-mail (leo.lima149@gmail.com).</p>
+                    <div class="xs-mt-50">
+                        <input type="button" value="OK" class="btn btn-default btn-lg btn-space modal-close" id="btnOKError" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        //$("#modalSucesso").addClass("modal-show");
+    });
+
+    $("#txtCep").change(function (e) {
+
+        e.preventDefault();
+
+        $("#txtEndereco").val("");
+        $("#txtBairro").val("");
+        $("#txtCidade").val("");
+        $("#txtUF").val("");
+        $("#txtNumero").val("");
+        $("#txtComplemento").val("");
+
+        var Cep = $("#txtCep").val().replace("-", "");
+
+        $.getJSON("http://cep.republicavirtual.com.br/web_cep.php?cep=" + Cep + "&formato=json", {}, function (data) {
+
+            if (data.resultado_txt.indexOf('sucesso') > -1) {
+
+
+                if (data.logradouro) {
+                    $("#txtEndereco").attr('readonly', 'readonly');
+                    $("#txtBairro").attr('readonly', 'readonly');
+
+                    $("#txtEndereco").val(data.tipo_logradouro + ": " + data.logradouro);
+                    $("#txtBairro").val(data.bairro);
+                }
+                else {
+                    $("#txtEndereco").val('');
+                    $("#txtBairro").val('');
+
+                    $("#txtEndereco").removeAttr('readonly');
+                    $("#txtBairro").removeAttr('readonly');
+                }
+
+
+                $("#txtCidade").val(data.cidade);
+                $("#txtUF").val(data.uf);
+            } else {
+                alert("Cep não encontrado!");
+            }
+        });
+
+    });
+
+
+
+    $("#Salvar").on('click', function () {
+
+        var ddlSexo = $("#ddlSexo").val();
+        var ddlTipoPessoa = $("#ddlTipoPessoa").val();
+        var txtNome = $("#txtNome").val();
+        var txtCep = $("#txtCep").val();
+        var txtNumero = $("#txtNumero").val();
+        var txtDataNascimento = $("#txtDataNascimento").val();
+
+        if (ddlSexo == 0) {
+            $("#modalSexoObrigatorio").addClass("modal-show");
+        }
+        else if (ddlTipoPessoa == 0) {
+            $("#modalTipoPessoaObrigatorio").addClass("modal-show");
+        }
+        else if (txtNome == "") {
+            $("#modalNomePessoaObrigatorio").addClass("modal-show");
+        }
+        else if (txtCep == "" || txtCep == "_____-___") {
+            $("#modalCEPObrigatorio").addClass("modal-show");
+        }
+        else if (txtNumero == "") {
+            $("#modalNumResidenciaObrigatorio").addClass("modal-show");
+        }
+
+        else if (txtDataNascimento == "" ) {
+            $("#modalDataNascimento").addClass("modal-show");
+        }
+        else {
+            $("#modalTipoPessoaObrigatorio").removeClass("modal-show");
+            $("#modalSexoObrigatorio").removeClass("modal-show");
+            $("#modalNomePessoaObrigatorio").removeClass("modal-show");
+            $("#modalCEPObrigatorio").removeClass("modal-show");
+            $("#modalNumResidenciaObrigatorio").removeClass("modal-show");
+            $("#modalDataNascimento").removeClass("modal-show");
+
+            $.blockUI({ message: '<h1><img src="/Content/img/busy.gif" /> Aguarde por favor...</h1>' });
+
+            $("#SubSalvar").submit();
+
+            if (TempData["Mensagem"].ToString() == "sucesso") {
+                $("#modalSucesso").addClass("modal-show");
+            } else {
+                $("#modalError").addClass("modal-show");
+            }
+
+        }
+        return;
+
+    });
+
+
+
+    $("#Cancelar").on('click', function () {
+        $(location).attr('href', "/ConsultaPessoa");
+    });
+
+    $("#btnFecharSexo").on('click', function () {
+        $("#modalSexoObrigatorio").removeClass("modal-show");
+    });
+
+    $("#btnFecharDataNascimento").on('click', function () {
+        $("#modalDataNascimento").removeClass("modal-show");
+    });
+
+
+    $("#btnFecharTipoPessoa").on('click', function () {
+        $("#modalTipoPessoaObrigatorio").removeClass("modal-show");
+    });
+
+    $("#btnFecharNomePessoa").on('click', function () {
+        $("#modalNomePessoaObrigatorio").removeClass("modal-show");
+    });
+
+    $("#btnFecharCep").on('click', function () {
+        $("#modalCEPObrigatorio").removeClass("modal-show");
+    });
+
+    $("#btnFecharNumResidencia").on('click', function () {
+        $("#modalNumResidenciaObrigatorio").removeClass("modal-show");
+    });
+
+    $("#btnOK").on('click', function () {
+        var idregistro = '@TempData["retorno"]';
+        $(location).attr('href', "/ConsultaPessoa?id=" + idregistro);
+    });
+
+    $("#btnOKError").on('click', function () {
+        $(location).attr('href', "/CadastroPessoa");
+    });
+
+    $(function () {
+        $("#txtCelular").mask("(99) 99999-9999");
+        $("#txtTelefone").mask("(99) 9999-9999");
+        $("#txtCep").mask("99999-999");
+        $("#txtDataNascimento").mask("99/99/9999");
+    });
+
+    function validarData(campo) {
+        debugger;
+        var expReg = /^(([0-2]\d|[3][0-1])\/([0]\d|[1][0-2])\/[1-2][0-9]\d{2})$/;
+        var msgErro = 'Formato inválido de data.';
+        if ((campo.value.match(expReg)) && (campo.value != '')) {
+            var dia = campo.value.substring(0, 2);
+            var mes = campo.value.substring(3, 5);
+            var ano = campo.value.substring(6, 10);
+            if (mes == 4 || mes == 6 || mes == 9 || mes == 11 && dia > 30) {
+                alert("Dia incorreto !!! O mês especificado contém no máximo 30 dias.");
+                return false;
+            } else {
+                if (ano % 4 != 0 && mes == 2 && dia > 28) {
+                    alert("Data incorreta!! O mês especificado contém no máximo 28 dias.");
+                    return false;
+                } else {
+                    if (ano % 4 == 0 && mes == 2 && dia > 29) {
+                        alert("Data incorreta!! O mês especificado contém no máximo 29 dias.");
+                        return false;
+                    } else {
+                        alert("Data correta!");
+                        return true;
+                    }
+                }
+            }
+        } else {
+            alert(msgErro);
+            campo.focus();
+            return false;
+        }
+    }
+
+</script>
+

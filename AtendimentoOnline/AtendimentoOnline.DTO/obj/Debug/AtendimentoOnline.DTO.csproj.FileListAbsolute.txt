@@ -1,0 +1,5 @@
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.DTO\bin\Debug\AtendimentoOnline.DTO.dll
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.DTO\bin\Debug\AtendimentoOnline.DTO.pdb
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.DTO\obj\Debug\AtendimentoOnline.DTO.csproj.CoreCompileInputs.cache
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.DTO\obj\Debug\AtendimentoOnline.DTO.dll
+C:\Projetos\AtendimentoOnline\AtendimentoOnline\AtendimentoOnline.DTO\obj\Debug\AtendimentoOnline.DTO.pdb
